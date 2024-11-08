@@ -1,7 +1,7 @@
 # AUTHORS   : Alex Wise
 # CLASS     : CS498
 # DATE      : 11/07/2024
-# PROGRAM   : AzureMailReader.py
+# PROGRAM   : OutlookReader.py
 
 import win32com.client
 

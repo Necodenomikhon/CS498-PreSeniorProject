@@ -1,2 +1,7 @@
 cs498test@outlook.com
 easy2Forget
+
+Azure 
+Client: 7ed300eb-2268-49e0-95ce-ee27931470b5
+Tenant: 2b30530b-69b6-4457-b818-481cb53d42ae
+Secret: nYD8Q~8cSpF2qxi32q6Vp_EqufRHEhDTQDD8bdtu

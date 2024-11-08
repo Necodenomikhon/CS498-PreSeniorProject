@@ -1,7 +1,7 @@
 # AUTHORS   : Alex Wise
 # CLASS     : CS498
 # DATE      : 11/07/2024
-# PROGRAM   : AzureMailReader.py
+# PROGRAM   : MailAppReader.py
 
 import imaplib
 import email
