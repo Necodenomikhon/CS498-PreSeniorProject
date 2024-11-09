@@ -10,8 +10,8 @@ import webbrowser
 
 # Function to prompt user for Azure credentials
 def get_azure_credentials():
-    client_id = "7ed300eb-2268-49e0-95ce-ee27931470b5"  # replace with your client ID
-    tenant_id = "2b30530b-69b6-4457-b818-481cb53d42ae"  # replace with your tenant ID
+    client_id = "7ed300eb-2268-49e0-95ce-ee27931470b5"
+    tenant_id = "2b30530b-69b6-4457-b818-481cb53d42ae"
     return client_id, tenant_id
 
 def get_access_token(client_id, tenant_id):
@@ -67,10 +67,11 @@ def fetch_emails():
             email_data += "Subject: " + email["subject"] + "\n"
             email_data += "From: " + email["from"]["emailAddress"]["address"] + "\n"
             email_data += "Received: " + email["receivedDateTime"] + "\n"
-            email_data += "Body Preview: " + email["bodyPreview"] + "\n"
+            # email_data += "Body Preview: " + email["bodyPreview"] + "\n"
+            email_data += "Body:\n" + email["body"]["content"] + "\n"
             email_data += "-" * 50 + "\n\n"  # Separator between emails
             break # Only print out first email
-        
+
         # Write emails to the file
         with open(output_file_path, "w", encoding="utf-8") as file:
             file.write(email_data)
