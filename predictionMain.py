@@ -5,6 +5,12 @@ import numpy as np
 import re
 from scipy.sparse import hstack
 
+# Email Parsing
+from scripts.AzureMailReader import fetch_emails
+
+# Email Parsing (No touchy)
+email_text = ""
+
 # Load the saved components
 model = load('model.joblib')
 tfidf_vectorizer = load('tfidf_vectorizer.joblib')
@@ -82,9 +88,8 @@ def paste_mode():
 # Function for Scan Mode
 def scan_mode():
     # Predefined email text for scanning
-    email_text = """
-    Congratulations! You have won a prize. Please click here to claim your reward.
-    """
+    email_text = fetch_emails(mode="last")
+
     try:
         prediction, probability = predict_individual(email_text)
         result = f"Prediction: {'Scam' if prediction == 1 else 'Not Scam'}\n"

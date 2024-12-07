@@ -14,6 +14,8 @@ def get_azure_credentials():
     tenant_id = "2b30530b-69b6-4457-b818-481cb53d42ae"
     return client_id, tenant_id
 
+# Function to retrieve an access token from Azure Active Directory (AAD) for accessing the user's email data. 
+# The function uses the Microsoft Authentication Library (MSAL) for Python to handle the OAuth2 authentication flow.
 def get_access_token(client_id, tenant_id):
     authority = f"https://login.microsoftonline.com/common"
     redirect_uri = "http://localhost:8000"
@@ -81,9 +83,47 @@ def fetch_emails():
     else:
         print("Failed to fetch emails:", response.status_code, response.text)
         return None
+    
+# Function to fetch and print the body of the last email opened by the user
+def fetch_emails(mode="last"):
+    client_id, tenant_id = get_azure_credentials()
+    access_token = get_access_token(client_id, tenant_id)
+
+    if not access_token:
+        return
+
+    # Get the emails, sorted by the `lastModifiedDateTime` in descending order
+    url = "https://graph.microsoft.com/v1.0/me/messages?$filter=isRead eq true&$orderby=lastModifiedDateTime desc&$top=1"
+    headers = {"Authorization": f"Bearer {access_token}"}
+    response = requests.get(url, headers=headers)
+    
+    if response.status_code == 200:
+        emails = response.json().get('value', [])
+        
+        if emails:
+            # Get the last email (most recently modified/read)
+            email = emails[0]
+            email_id = email["id"]
+            detailed_url = f"https://graph.microsoft.com/v1.0/me/messages/{email_id}"
+            detailed_response = requests.get(detailed_url, headers=headers)
+            
+            if detailed_response.status_code == 200:
+                detailed_email = detailed_response.json()
+                email_body = detailed_email["body"]["content"]
+                print("Body of the last email opened by the user:\n")
+                print(email_body)
+                return email_body
+            else:
+                print("Failed to fetch full email details for the last email opened.")
+        else:
+            print("No emails found that have been read by the user.")
+    else:
+        print("Failed to fetch emails:", response.status_code, response.text)
+        return None
 
 # Run the script
 if __name__ == "__main__":
-    email_text = fetch_emails()
+    #email_text = fetch_emails()
+    email_text = fetch_last_email_body()
     print("Emails as a text string:\n")
     print(email_text)

@@ -18,7 +18,7 @@ from scripts.AzureMailReader import fetch_emails
 # Sample email text
 
 # Email Parsing (No touchy)
-email_text = fetch_emails()
+email_text = fetch_emails(mode="last")
 print(email_text)
 #email_text = "Congratulations! You have won a prize. Please click here to claim your reward."
 displaytext = ""
